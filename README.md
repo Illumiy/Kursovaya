@@ -26,3 +26,13 @@
 5 шаг 
 Запустить на сервере сайт
 </p>
+<p>
+Для доступа к административной панели нужно ввести:
+    http://kurs/workusers/index для таблицы workusers
+</p>
+<p>
+http://kurs/userskek/index для таблицы user
+</p>
+<p>
+http://kurs/work/index для таблицы work
+</p>
