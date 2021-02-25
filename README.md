@@ -8,11 +8,11 @@
  <h1 align="center">Руководство по запуску</h1>
 <p>
 1 Шаг 
-git clone https://github.com/Illumiy/Kursovaya
+ввести в командной строке git clone https://github.com/Illumiy/Kursovaya
 </p>
 <p>
 2 Шаг
-composer u
+ввести в командной строк composer u
 </p>
 <p>
 3 Шаг 
@@ -20,7 +20,7 @@ composer u
 </p>
 <p>
 4 шаг
-yii migrate
+ввести в командной строк yii migrate
 </p>
 <p>
 5 шаг 
