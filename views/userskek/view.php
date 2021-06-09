@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\WorkUsers */
+/* @var $model app\models\User */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Work Users', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => ' Таблица Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="work-users-view">
+<div class="user-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Вы уверены что хотите удалить?',
+                'confirm' => 'Вы уверены?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -30,11 +30,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'id_work',
-            'id_user',
-            'status',
+            'username',
+            'fio',
+            'email:email',
+            'password_hash',
+            'auth_key',
+            'confirmed_at',
+            'unconfirmed_email:email',
+            'blocked_at',
+            'registration_ip',
             'created_at',
             'updated_at',
+            'flags',
+            'last_login_at',
         ],
     ]) ?>
 

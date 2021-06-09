@@ -21,3 +21,7 @@
 http://kurs/userskek/index для таблицы user
 
 http://kurs/work/index для таблицы work
+<<<<<<< HEAD
+=======
+
+>>>>>>> 285b939 (compleate?)

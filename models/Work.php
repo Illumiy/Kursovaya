@@ -46,8 +46,8 @@ class Work extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_teacher' => 'Id Teacher',
-            'title' => 'Title',
+            'id_teacher' => 'ФИО учителя',
+            'title' => 'Название работы',
         ];
     }
 

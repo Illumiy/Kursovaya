@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "user".
  *
@@ -30,6 +30,27 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            //Использование поведения TimestampBehavior ActiveRecord
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    \yii\db\BaseActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
+                    \yii\db\BaseActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+
+                ],
+                'value' => function(){
+                    date_default_timezone_set("Europe/Moscow");
+                                return date("Y-m-d H:i:s");
+                },
+
+
+            ],
+
+        ];
+    }
     /**
      * {@inheritdoc}
      */
@@ -44,8 +65,8 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'fio', 'email', 'password_hash', 'auth_key', 'created_at', 'updated_at'], 'required'],
-            [['confirmed_at', 'blocked_at', 'created_at', 'updated_at', 'flags', 'last_login_at'], 'integer'],
+            [['username', 'fio', 'email', 'password_hash', 'auth_key' ], 'required'],
+            [['confirmed_at', 'blocked_at', 'flags', 'last_login_at'], 'integer'],
             [['username', 'fio', 'email', 'unconfirmed_email'], 'string', 'max' => 255],
             [['password_hash'], 'string', 'max' => 60],
             [['auth_key'], 'string', 'max' => 32],
@@ -66,15 +87,15 @@ class User extends \yii\db\ActiveRecord
             'fio' => 'Фио',
             'email' => 'Email',
             'password_hash' => 'Пароль',
-            'auth_key' => 'Auth Key',
-            'confirmed_at' => 'Confirmed At',
-            'unconfirmed_email' => 'Unconfirmed Email',
-            'blocked_at' => 'Blocked At',
-            'registration_ip' => 'Registration Ip',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'flags' => 'Flags',
-            'last_login_at' => 'Last Login At',
+            'auth_key' => 'Ключ авторизации',
+            'confirmed_at' => 'Подтверждение email',
+            'unconfirmed_email' => 'Неподтверждённый Email',
+            'blocked_at' => 'Заблокирован',
+            'registration_ip' => 'Регистрационное Ip',
+            'created_at' => 'Создан',
+            'updated_at' => 'Обновлён',
+            'flags' => 'Роль',
+            'last_login_at' => 'Последний логин',
         ];
     }
 

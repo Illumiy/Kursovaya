@@ -9,58 +9,48 @@ use yii\helpers\Url;
 <h1>Лента уведомлений</h1>
 
 <p>
+Вам показаны, не проверенные вами работы<br>
    <?php
-//    $arr= array(
-//        0 => Html::a(Html::encode($arr_works['title']), Url::to(['view', 'id' => $arr_works['title']])),
-//        1 => Html::a(Html::encode($arr_works['fio']), Url::to(['view', 'id' => $arr_works['title']])),
-//    )
-    if($arr_works){
-        $provider  = new ArrayDataProvider([
-            'allModels' => $arr_works,
-            'pagination' => [
-                'pageSize' => 10,
+    echo GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            [// Столбец с Названием
+                'attribute' => 'title',
+                'label' => 'Название работы', 
+                'value' => function ($data) {
+                    return Html::a(Html::encode($data->work->title), Url::to(['work/view', 'id' => $data->work->id]));
+                },
+                'format' => 'raw',
             ],
-            'sort' => [
-                'attributes' => ['updated_at'],
+            ['attribute' => 'fio','label' => 'ФИО студента', 'value'=>'user.fio'],// Столбец с ФИО
+            [// Столбец с файлами
+                'attribute' => 'Ссылка на файл',
+                'label' => 'Файл работы',
+                'value' => function ($data) {
+                    return Html::a(Html::encode('Файл'), Url::to(['download', 'path' => $data->file]));
+                },
+                'format' => 'raw',
+            ],
+            [// Столбец с временем создания
+                'attribute' => 'created_at',
+                'label' => 'Время сдачи', 
+                'value' => function ($data) {
+                    return Html::tag('div',Html::encode(substr($data->created_at, 0, -7)));//Удаление нулей из записи времени
+                },
+                'format' => 'raw',
+            ],
+            [// Столбец с временем обновления
+                'attribute' => 'updated_at',
+                'label' => 'Время обновления', 
+                'value' => function ($data) {
+                    return Html::tag('div',Html::encode(substr($data->updated_at, 0, -7)));//Удаление нулей из записи времени
+                },
+                'format' => 'raw',
             ],
            
-        ]);
-        echo GridView::widget([
-            'dataProvider' => $provider ,
-            'columns' => [
-                [
-                    'attribute' => 'title',
-                    'value' => function ($arr_works) {
-                        return Html::a(Html::encode($arr_works['title']), Url::to(['../workusers/view', 'id' => 1]));
-                    },
-                    'format' => 'raw',
-                ],
-                [
-                    'attribute' => 'fio',
-                    'value' => function ($arr_works) {
-                        return Html::a(Html::encode($arr_works['fio']), Url::to(['../workusers/view', 'id' => 1]));
-                    },
-                    'format' => 'raw',
-                ],
-                [
-                    'attribute' => 'update',
-                    'value' => function ($arr_works) {
-                        return Html::a(Html::encode(substr($arr_works['update'],0,-7)), Url::to(['../workusers/view', 'id' => 1]));
-                    },
-                    'format' => 'raw',
-                ],
-                [
-                    'attribute' => 'status',
-                    'value' => function ($arr_works) {
-                        return Html::a(Html::encode($arr_works['status']), Url::to(['../workusers/view', 'id' => 1]));
-                    },
-                    'format' => 'raw',
-                ],
-            ],
-        ]);
-    }else{
-        echo "Нету работ";
-    }
+        ],
+    ]); 
     
    ?>
 </p>

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\WorkUsersSearch;
 use app\models\WorkUsers;
 use app\models\Work;
 use app\models\User;
@@ -13,40 +14,27 @@ class LentaController extends \yii\web\Controller
     {
         $session = Yii::$app->session;
         $session->open();
-        $work = Work::find()->all();
         $user= User::findOne($session->get('__id'));
-        if($user['flags']==2){
+        if($user['flags']==2 || !isset($user)){//Проверка на ученика или гостя
             return $this->render('error');
         }
-        $teacher_works= $user->works;
-        $arr_works=array();
-        if($teacher_works){
-            foreach($teacher_works as $id_work){
-                $works_student=WorkUsers::find()->where(['id_work'=> $id_work['id']])->orderBy(['updated_at'=> SORT_DESC])->all();
-                foreach($works_student as $one_work){
-                    $student_inf=User::findOne($one_work['id_user']);
-                    $work_inf=Work::findOne($one_work['id_work']);
-                    $arr_works[$one_work['id']]['title']=$work_inf['title'];
-                    $arr_works[$one_work['id']]['fio']=$student_inf['fio'];
-                    $arr_works[$one_work['id']]['status']=$one_work['status'];
-                    $arr_works[$one_work['id']]['update']=$one_work['updated_at'];
-                    // s($arr_works);
-                }
-            }
+        $teacher_works = array();
+        foreach($user->works as $id_work){
+            $teacher_works[]=$id_work['id'];
         }
-        usort($arr_works, function ($a, $b){ 
-            if ($a['update'] == $b['update']) return 'ds';
-            return $a['update'] < $b['update'] ? 1 : -1; 
-        });
-        // s($arr_works);
-        // die;
+        $searchModel = new WorkUsersSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $teacher_works);
         
         return $this->render('index', [
-            'user' => $user,
-            'work' => $work,
-            'teach' => $teach,
-            'arr_works'=> $arr_works,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
+    public function actionDownload($path) {
+        if (file_exists($path)) {
+            return \Yii::$app->response->sendFile($path);
+        } 
+        throw new \Exception('File not found');
+     }
 
 }

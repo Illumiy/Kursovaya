@@ -4,7 +4,8 @@ namespace app\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-
+use app\models\User;
+use app\models\Work;
 /**
  * This is the model class for table "work_users".
  *
@@ -23,6 +24,8 @@ class WorkUsers extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    
+
     public function behaviors()
     {
         return [
@@ -55,9 +58,10 @@ class WorkUsers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_work', 'id_user', 'status'], 'required'],
+            [['id_work','file', 'id_user', 'status'], 'required'],
             [['id_work', 'id_user',], 'integer'],
             [['status'], 'string', 'max' => 255],
+            [['file'], 'file','skipOnEmpty'=> false, 'extensions'=> 'docx, doc, pdf'],//Правила для расширения файла
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_user' => 'id']],
             [['id_work'], 'exist', 'skipOnError' => true, 'targetClass' => Work::className(), 'targetAttribute' => ['id_work' => 'id']],
         ];
@@ -109,4 +113,16 @@ class WorkUsers extends \yii\db\ActiveRecord
 
         return $name_wo ? $name_wo->title : '';
     }
+     //Загрузка файлов
+     public function upload()
+     {
+         if ($this->validate()) {
+            $path = 'uploads/' .md5(uniqid(rand(),true)). '.' . $this->file->extension;//Сохранение пути
+            $this->file->saveAs($path);
+            $this->file=$path;
+            return true;
+         } else {
+             return false;
+         }
+     }
 }

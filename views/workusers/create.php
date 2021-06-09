@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\WorkUsers */
 
-$this->title = 'Create Work Users';
+$this->title = 'Создать Work Users';
 $this->params['breadcrumbs'][] = ['label' => 'Work Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

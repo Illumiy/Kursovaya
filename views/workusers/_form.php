@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
 <div class="work-users-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?php
         $params = [
@@ -21,13 +21,13 @@ use yii\widgets\ActiveForm;
             'prompt' => 'Укажите работу записи'
         ];
     ?>
-    <?= $form->field($model, 'id_work')->dropDownList($items,$params);?>
+    <?= $form->field($model, 'id_work')->dropDownList($items_works,$params);?>
     <?= $form->field($model, 'id_user')->dropDownList($items,$params);?>
-
+    <?= $form->field($model, 'file')->fileInput() ?>
     <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
