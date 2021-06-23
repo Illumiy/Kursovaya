@@ -11,6 +11,9 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'language' => 'ru-RU',
+    // 'layout' => '@app/views/layouts/new',
+    'defaultRoute' => 'lenta/index',
     'modules' => [
         'user' => [
             // 'rbac' => 'dektrium\rbac\RbacWebModule',

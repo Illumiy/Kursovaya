@@ -33,6 +33,13 @@ class LentaController extends \yii\web\Controller
     public function actionDownload($path) {
         if (file_exists($path)) {
             return \Yii::$app->response->sendFile($path);
+            $searchModel = new WorkUsersSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $teacher_works);
+            
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
         } 
         throw new \Exception('File not found');
      }
